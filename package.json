@@ -1,0 +1,22 @@
+{
+  "name": "v2you",
+  "version": "1.0.0",
+  "description": "Video conferencing webapp using webRTC (no plugin required)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TinaYTZ/v2you.git"
+  },
+  "author": "TinaYTZ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TinaYTZ/v2you/issues"
+  },
+  "homepage": "https://github.com/TinaYTZ/v2you#readme",
+  "dependencies": {
+    "socketio-over-nodejs": "^3.0.1"
+  }
+}

@@ -1,2 +1,2 @@
-# CPSC473Project2
-testing
+# vid2you
+Video conferencing webapp using webRTC (no plugin required)

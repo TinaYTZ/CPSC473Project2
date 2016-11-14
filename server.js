@@ -1,0 +1,87 @@
+// Server-side code
+/* jshint node: true, curly: true, eqeqeq: true, forin: true, immed: true, indent: 4, latedef: true, newcap: true, nonew: true, quotmark: single, undef: true, unused: true, strict: true, trailing: true */
+
+'use strict';
+var express = require('express');
+var https = require('https');
+var socketio = require('socket.io');
+var fs = require('fs');
+var events = require('events');
+//var mongodb = require('mongodb');
+//var MongoClient = mongodb.MongoClient;
+
+var port = 8888;
+var ssldir = 'node_modules/socketio-over-nodejs/fake-keys'
+var options = {
+   key: fs.readFileSync(ssldir + '/privatekey.pem'),
+   cert: fs.readFileSync(ssldir + '/certificate.pem')
+};
+
+var app = express();
+app.use('/', express.static('public'))
+var server = https.createServer(options, app);
+
+var io = socketio.listen(server, {
+    log: true,
+    origins: '*:*'
+});
+
+//io.set('transports', [ /*'websocket',*/ 'xhr-polling', 'jsonp-polling' ]);
+
+var channels = {};
+
+io.sockets.on('connection', function (socket) {
+    var initiatorChannel = '';
+    if (!io.isConnected) {
+        io.isConnected = true;
+    }
+
+    socket.on('new-channel', function (data) {
+        if (!channels[data.channel]) {
+            initiatorChannel = data.channel;
+        }
+
+        channels[data.channel] = data.channel;
+        onNewNamespace(data.channel, data.sender);
+    });
+
+    socket.on('presence', function (channel) {
+        var isChannelPresent = !! channels[channel];
+        socket.emit('presence', isChannelPresent);
+    });
+
+    socket.on('disconnect', function (channel) {
+        if (initiatorChannel) {
+            delete channels[initiatorChannel];
+        }
+    });
+});
+
+function onNewNamespace(channel, sender) {
+    io.of('/' + channel).on('connection', function (socket) {
+        var username;
+        if (io.isConnected) {
+            io.isConnected = false;
+            socket.emit('connect', true);
+        }
+
+        socket.on('message', function (data) {
+            if (data.sender == sender) {
+                if(!username) username = data.data.sender;
+                
+                socket.broadcast.emit('message', data.data);
+            }
+        });
+        
+        socket.on('disconnect', function() {
+            if(username) {
+                socket.broadcast.emit('user-left', username);
+                username = null;
+            }
+        });
+    });
+}
+
+server.listen(process.env.PORT || port, function() {
+  console.log("Express running on port", (process.env.PORT || port));
+});

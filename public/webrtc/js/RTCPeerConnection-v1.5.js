@@ -1,4 +1,4 @@
-// Last time updated at 05 June 2016, 08:32:23
+// Last time updated at 13 November 2016, 08:32:23
 
 // Muaz Khan     - github.com/muaz-khan
 // MIT License   - www.WebRTC-Experiment.com/licence
@@ -292,7 +292,7 @@ function getUserMedia(options) {
     function streaming(stream) {
         var video = options.video;
         if (video) {
-            video[moz ? 'mozSrcObject' : 'src'] = moz ? stream : window.webkitURL.createObjectURL(stream);
+            video[moz ? 'mozSrcObject' : 'src'] = moz ? stream : window.URL.createObjectURL(stream);
             video.play();
         }
         options.onsuccess && options.onsuccess(stream);

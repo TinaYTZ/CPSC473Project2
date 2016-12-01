@@ -10,7 +10,7 @@ var events = require('events');
 //var mongodb = require('mongodb');
 //var MongoClient = mongodb.MongoClient;
 
-var port = 8888;
+var port = 8080;
 var ssldir = 'node_modules/socketio-over-nodejs/fake-keys'
 var options = {
    key: fs.readFileSync(ssldir + '/privatekey.pem'),

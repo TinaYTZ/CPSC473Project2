@@ -4,7 +4,9 @@
 'use strict';
 var express = require('express');
 var https = require('https');
-var socketio = require('socket.io');
+var multidep = require('multidep')('multidep.json');
+var socketio = multidep('socket.io', '0.9.17');
+var newsocketio = multidep('socket.io', '1.7.1');
 var fs = require('fs');
 var events = require('events');
 //var mongodb = require('mongodb');

@@ -4,7 +4,7 @@
   "description": "Video conferencing webapp using webRTC (no plugin required)",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/multidep multidep.json"
   },
   "repository": {
     "type": "git",
@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/TinaYTZ/v2you#readme",
   "dependencies": {
-    "socketio-over-nodejs": "^3.0.1",
     "express": "^4.14.0",
     "fs": "0.0.1-security",
     "https": "^1.0.0",
+    "multidep": "^2.0.1",
     "node-static": "0.7.x",
-    "socket.io": "0.9.x"
+    "socketio-over-nodejs": "^3.0.1"
   }
 }

@@ -15,8 +15,7 @@ var main = function() {
 				console.log('registration passed');
 			}
 		});
-	}
-
+  }
 	$('#submit-button').click(function() {
 		 console.log($('.ui.form.register').form('get values'));
 		 // POSTS user information if registration form passes validation rules

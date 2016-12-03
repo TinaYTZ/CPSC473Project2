@@ -9,8 +9,8 @@ var socketio = multidep('socket.io', '0.9.17');
 var newsocketio = multidep('socket.io', '1.7.1');
 var fs = require('fs');
 var events = require('events');
-//var mongodb = require('mongodb');
-//var MongoClient = mongodb.MongoClient;
+var mongo = require('mongodb');
+var mongoose = require('mongoose');
 
 var port = 8080;
 var ssldir = 'node_modules/socketio-over-nodejs/fake-keys'
@@ -22,6 +22,14 @@ var options = {
 var app = express();
 app.use('/', express.static('public'))
 var server = https.createServer(options, app);
+
+// Connect to the database
+mongoose.connect('mongodb://project2:project2@ds113668.mlab.com:13668/473project2');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.log("Connected to mlab Project 2 Database");
+});
 
 var io = socketio.listen(server, {
     log: true,
@@ -70,11 +78,11 @@ function onNewNamespace(channel, sender) {
         socket.on('message', function (data) {
             if (data.sender == sender) {
                 if(!username) username = data.data.sender;
-                
+
                 socket.broadcast.emit('message', data.data);
             }
         });
-        
+
         socket.on('disconnect', function() {
             if(username) {
                 socket.broadcast.emit('user-left', username);

@@ -59,12 +59,12 @@ app.use(expressValidator({
 
 // Register User - gets data from the user end and validates it
 app.post('/register', function(req, res) {
-	var email = req.body.email,
+  var email = req.body.email,
 	    username = req.body.username,
 		  password = req.body.password,
 		  password2 = req.body.password2; // For confirm password field
 
-		// Validation using express-validator
+      // Validation using express-validator
 		req.checkBody('email', 'Invalid email').isEmail();
 		req.checkBody('username', 'Invalid username').notEmpty();
 		req.checkBody('password', 'Invalid password').notEmpty();

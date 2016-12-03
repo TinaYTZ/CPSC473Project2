@@ -1,7 +1,7 @@
 var main = function() {
 	'use strict'
 
-	var url = "http://localhost:3000";
+	var url = "https://localhost:8080";
 
 	// @param userCredentials - object of user register credentials
 	function registerUser(userCredentials) {

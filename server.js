@@ -29,6 +29,7 @@ var app = express();
 app.use(bodyParser.json());
 
 var server = https.createServer(options, app);
+app.use('/', express.static('public'));
 
 // Connect to the database
 mongoose.connect('mongodb://project2:project2@ds113668.mlab.com:13668/473project2');
@@ -75,7 +76,7 @@ app.post('/register', function(req, res) {
 		// Re-render the register page with the errors
 		if(errors) {
       res.send('errors in register validation');
-      console.log('errors in registering');
+      console.log('errors in registering' + errors);
 		} else {
 			console.log('Registration passed for email: ' + email + 'name: ' + username);
 			//validation passed so lets create our new user

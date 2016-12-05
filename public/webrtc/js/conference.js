@@ -186,9 +186,9 @@ var conference = function(config) {
                     userToken: self.userToken
                 });
                 delete sockets[i];
+                
             }
         }
-
         // if owner leaves; try to remove his room from all other users side
         if (isbroadcaster) {
             defaultSocket.send({

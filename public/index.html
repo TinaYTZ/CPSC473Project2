@@ -43,23 +43,27 @@
             <!-- local/remote videos container -->
             <div id="videos-container"></div>
         </section>
-        <div id="chat">            
-            <div id="connecting">
+        <div id="chat">             
+                <div><button class="btn-minimize"> - </button> </div>
+                <div id="connecting">
                 <div class="wrap">Connecting to socket.io server</div>
+                </div>
+                <div id="messages">
+                    <div id="nicknames">    
+                    </div>
+                <div class="messgeArea">
+                    <div id="lines">
+                    </div>
+                </div>
+
+                <form id="send-message">
+                    <input id="message" type="text"/>
+                    <div>
+                        <button value="" class="send">Send</button>
+                        <div class="filebutton">Send Image<input type="file" id="imagefile" accept="image/*"></div>
+                    </div>
+                </form>
             </div>
-            <div id="messages">
-                <div id="nicknames">
-                </div>
-                <div id="lines">
-                </div>
-            </div>
-            <form id="send-message">
-                <input id="message" type="text"/>
-                <div>
-                    <button value="" class="send">Send</button>
-                    <div class="filebutton">Send Image<input type="file" id="imagefile" accept="image/*"></div>
-                </div>
-            </form>
         </div>
         </div>
   </body>

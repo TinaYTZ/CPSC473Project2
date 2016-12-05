@@ -2,7 +2,14 @@
   //
   // socket.io code
   //
-  
+    
+
+
+$(".btn-minimize").click(function(){
+    $(this).toggleClass('btn-plus');
+    $(".messgeArea").slideToggle();
+  });
+
   var socket = io.connect();
   $('#mainArea').hide();
   socket.on('connect', function () {

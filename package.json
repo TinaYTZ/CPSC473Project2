@@ -30,7 +30,10 @@
     "node-static": "0.7.x",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+<<<<<<< HEAD
     "socket.io-client": "^1.7.1",
+=======
+>>>>>>> refs/remotes/origin/master
     "socketio-over-nodejs": "^3.0.1"
   }
 }

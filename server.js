@@ -26,11 +26,15 @@ var stat = require('node-static');
 var path = require('path');
 
 var app = express();
+<<<<<<< HEAD
 var nicknames = {};
+=======
+>>>>>>> refs/remotes/origin/master
 
 // Body Parser for JSON
 app.use(bodyParser.json());
 
+<<<<<<< HEAD
 var server = https.createServer(options,app);
 app.use('/', express.static('public'));
 
@@ -39,6 +43,10 @@ var file = new stat.Server(path.join(__dirname, '..', 'public'));
   function handler(req, res) {
     file.serve(req, res);
   }
+=======
+var server = https.createServer(options, app);
+app.use('/', express.static('public'));
+>>>>>>> refs/remotes/origin/master
 
 // Connect to the database
 mongoose.connect('mongodb://project2:project2@ds113668.mlab.com:13668/473project2');
@@ -68,6 +76,7 @@ app.use(expressValidator({
 
 // Register User - gets data from the user end and validates it
 app.post('/register', function(req, res) {
+<<<<<<< HEAD
   var email = req.body.email,
         username = req.body.username,
           password = req.body.password,
@@ -101,12 +110,49 @@ app.post('/register', function(req, res) {
                     console.log(user);
             });
         }
+=======
+  console.log('Form data sent: ' + req.body.email + req.body.confirmemail + req.body.username + req.body.password + req.body.confirmpassword)
+  var email = req.body.email,
+	    username = req.body.username,
+		  password = req.body.password;
+
+    // Validation using express-validator
+		req.checkBody('email', 'Invalid email').isEmail();
+    req.checkBody('confirmemail', 'Invalid email').equals(req.body.email);
+		req.checkBody('username', 'Invalid username').notEmpty();
+		req.checkBody('password', 'Invalid password').notEmpty();
+		req.checkBody('confirmpassword', 'Invalid password').equals(req.body.password);
+
+		// Test for errors example - delete the console logs later
+		var errors = req.validationErrors();
+
+		// Re-render the register page with the errors
+		if(errors) {
+      res.send('errors in register validation');
+      console.log('errors in registering' + errors);
+		} else {
+			console.log('Registration passed for email: ' + email + 'name: ' + username);
+			//validation passed so lets create our new user
+			var newUser = new User( {
+			    email: email,
+		      username: username,
+			    password: password
+			});
+
+      // Create our user - throw an error if it fails
+			User.createUser(newUser, function(err, user) {
+				if(err) throw err;
+					console.log(user);
+			});
+		}
+>>>>>>> refs/remotes/origin/master
 });
 
 // Gets user name, checks for match in our db, validates the password
 // Functions comparePassword & getUserByUsername found in models/user.js
 passport.use(new LocalStrategy(
   function(username, password, done) {
+<<<<<<< HEAD
     User.getUserByUsername(username), function(err, user) {
         if(err) throw err;
 
@@ -127,6 +173,28 @@ passport.use(new LocalStrategy(
         });
     };
     }));
+=======
+  	User.getUserByUsername(username), function(err, user) {
+  		if(err) throw err;
+
+  		// Is there a user in our db?
+  		if(!user) {
+  			return done(null, false, {message: 'No User Found'});
+  		}
+
+      // Does password match?
+  		User.comparePassword(password, user.password, function(err, isMatch) {
+  			if(err) throw err;
+  			if(isMatch) {
+  				return done(null, user);
+  			}
+  			else {
+  				return done(null, false, {message: 'Invalid Password'});
+  			}
+  		});
+  	};
+	}));
+>>>>>>> refs/remotes/origin/master
 
 // Passport serialization
 //Taken from official passport docs - getUserById found in our schema
@@ -135,6 +203,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
+<<<<<<< HEAD
     User.getUserbyId(id, function(err, user) {
         done(err, user);
     });
@@ -144,6 +213,13 @@ passport.deserializeUser(function(id, done) {
 
 //io.set('transports', [ /*'websocket',*/ 'xhr-polling', 'jsonp-polling' ]);
 //video
+=======
+	User.getUserbyId(id, function(err, user) {
+		done(err, user);
+	});
+});
+
+>>>>>>> refs/remotes/origin/master
 var io = socketio.listen(server, {
     log: true,
     origins: '*:*'

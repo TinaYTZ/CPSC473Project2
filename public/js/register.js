@@ -2,7 +2,10 @@ var main = function() {
 	'use strict'
 
 	var url = "https://localhost:8080";
+<<<<<<< HEAD
 	var redirect;
+=======
+>>>>>>> refs/remotes/origin/master
 
 	// @param userCredentials - object of user register credentials
 	function registerUser(userCredentials) {
@@ -30,9 +33,14 @@ var main = function() {
 				console.log(response);
 			}
 		});
+<<<<<<< HEAD
 	}
 
 	$('#register-submit-button').click(function() {
+=======
+  }
+	$('#submit-button').click(function() {
+>>>>>>> refs/remotes/origin/master
 		 console.log($('.ui.form.register').form('get values'));
 		 // POSTS user information if registration form passes validation rules
 		 if($('.ui.form.register').form('is valid')) {

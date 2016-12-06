@@ -1,7 +1,4 @@
-// Muaz Khan     - https://github.com/muaz-khan
-// MIT License   - https://www.webrtc-experiment.com/licence/
-// Documentation - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/video-conferencing
-
+// Reference code from  Muaz Khan  
 var config = {
     openSocket: function(config) {
         var SIGNALING_SERVER = '/',
@@ -121,6 +118,7 @@ function captureUserMedia(callback, failure_callback, forceSkipCustomGetUserMedi
     }
 
     var video = document.createElement('video');
+    
 
     getUserMedia({
         video: video,

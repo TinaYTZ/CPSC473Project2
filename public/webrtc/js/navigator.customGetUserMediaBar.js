@@ -1,24 +1,4 @@
-// Last time updated at June 02, 2014, 08:32:23
-
-// Muaz Khan         - http://www.MuazKhan.com
-// MIT License       - https://www.WebRTC-Experiment.com/licence
-// Documentation     - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/navigator.customGetUserMediaBar
-// Demo              - https://www.WebRTC-Experiment.com/navigator.customGetUserMediaBar/
-
-// __________________________________
-// navigator.customGetUserMediaBar.js
-
-/*
- *. https => displaying custom prompt-bar for HTTPs domains!
- *. Keep users privacy as much as possible!
- */
-
-
-// navigator.customGetUserMediaBar(mediaConstraints, success_callback, failure_callback);
-// arg1==mediaConstraints::: {audio:true, video:true}
-// arg2==success_callback::: user accepted the request
-// arg3==failure_callback::: user denied   the request
-
+// Reference code from  Muaz Khan  
 navigator.customGetUserMediaBar = function (session, success_callback, failure_callback) {
     // this feature is useful only for chrome over HTTPs
     if (!!navigator.mozGetUserMedia || location.protocol !== 'https:') return success_callback();

@@ -1,11 +1,14 @@
-html{
+
+body{
    background-image: url("bg.jpg");
+
 }
+
+
 .logo{
   padding: 20px;
   padding-left: 40px;
   color: white;
-  background-color: #2E5EAA;
   font-size: 38px;
   text-align: left;
 }
@@ -13,8 +16,23 @@ html{
 .brand2 {
 font-size: 20px;
 text-align: right;
+ padding-left: 800px;
+}
+#loginArea{
+    background-image: url("bg1.jpg");
+    background-size: 100%;
+    align: center;
+    width: 100%;
+    height: 100%;
+    color: #FFF;
+    padding: 5em;
+    padding-bottom: 25em;
+}
+.ui.header{
+  background-color: #333;
 
 }
+
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
@@ -42,6 +60,13 @@ h1 {
   border-radius: 10px;
   background: #f7f7f7;
   box-shadow: 0 0 25px rgba(0, 0, 0, .07);
+}
+#register-button,#login-button{
+  right: 100px;
+  position: absolute;
+}
+.ui.header.menu{
+  background-color: #333;
 }
 
 .btn-minimize {
@@ -71,8 +96,25 @@ h1 {
   background: #f7f7f7;
   box-shadow: 0 0 25px rgba(0, 0, 0, .07);
 }
+.ui.container{
+padding: 0px
 
+}
+.ui.row.footer{
+  padding-left: 0px;
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 0;
+    border-width: 1px 0 0;
+    background-color: #333;
+    text-align: left;
+    color: white;
+    font-size: 20px;
+    display: block;
+    width: 100%;
+    padding:5px;
 
+}
 #connecting {
   position: absolute;
   height: 410px;

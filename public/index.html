@@ -1,83 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>v2you</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <link rel="stylesheet" href="webrtc/css/style.css">
-        <link rel="stylesheet" href="css/index.css">
-        <link rel="stylesheet" href="webrtc/css/launch.css">
-    </head>
-    <body>
-
-        <div class="logo">
+   <head>
+      <title>v2you</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <link rel="stylesheet" href="webrtc/css/style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+      <link rel="stylesheet" href="css/index.css">
+      <link rel="stylesheet" href="webrtc/css/launch.css">
+   </head>
+   <body id= 'body'>
+   <div class="ui header menu" id="title">
+         <div class="logo">
             V2You
             <span class="brand2">        Video conferencing webapp using webRTC</span>
         </div>
-        <div id="nickname">
+   </div>
+
+   <div id="loginArea" >
+      <div class="ui container ">
+            <div class="ui item">
+               <div class="ui primary button" id="register-button">
+                  Signup
+               </div>
+               <div class="ui modal" id="register-modal">
+                  <div class="ui raised very padded text container segment dimmable">
+                     <div class="ui header">V2You Registration</div>
+                     <div class="ui form register" name="register">
+                        <div class="field">
+                           <label>Username</label>
+                           <input type="text" name="username" placeholder="Username">
+                        </div>
+                        <div class="field">
+                           <label>Email Address</label>
+                           <input type="email" name="email" placeholder="Email">
+                        </div>
+                        <div class="field">
+                           <label>Confirm Email Address</label>
+                           <input type="email" name="confirmemail" placeholder="Confirm Email" id="confirm-email">
+                        </div>
+                        <div class="field">
+                           <label>Password</label>
+                           <input type="password" name="password" placeholder="Password">
+                        </div>
+                        <div class="field">
+                           <label>Confirm Password</label>
+                           <input type="password" name="confirmpassword" placeholder="Confirm Password">
+                        </div>
+                        <div class="ui primary submit button" id="register-submit-button">Register</div>
+                        <div class="ui error message"></div>
+                        <span class="signup-response"></span>
+                     </div>
+                     <div class="ui header">Already Registered?
+                        <a id="skip-register">Login</a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <p></p>
+            <div class="ui item">
+               <div class="ui primary button" id="login-button">
+                  Login
+               </div>
+               <div class="ui modal" id="login-modal">
+                  <div class="ui raised very padded text container segment">
+                     <div class="ui header">V2You Login</div>
+                     <div class="ui form login">
+                        <div class="field">
+                           <label>Username</label>
+                           <input type="text" name="username" placeholder="Username">
+                        </div>
+                        <div class="field">
+                           <label>Password</label>
+                           <input type="password" name="password" placeholder="Password">
+                        </div>
+                        <div class="ui primary submit button" id="login-submit-button">Sign In</div>
+                        <div class="ui error message"></div>
+                        <span class="login-response"></span>
+                        <div class="ui header">New to us? <a id="skip-login">Sign Up</a></div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div id="userArea">
+         <div id="nickname">
             <form class="wrap" id="set-nickname">
-                <label for="nick">Please type in your nickname and press enter.</label>
-                <input id="nick" name="nick" type="text" placeholder="nickname" />
-                <p id="nickname-err">Nickname already in use</p>
+               <label for="nick">Please type in your nickname and press enter.</label>
+               <input id="nick" name="nick" type="text" placeholder="nickname" />
+               <p id="nickname-err">Nickname already in use</p>
             </form>
-        </div>   
-        <div id = 'mainArea'>  
-            <section class="experiment">                
-                <section>
-                    <span>
-                        <span>Private:</span>
-                        <a href="/video-conferencing/" target="_blank" title="Open incognito">
-                            <code><strong id="unique-token">#123456789</strong></code>
-                        </a>
-                    </span>
-
-                    <input type="text" id="conference-name">
-                    <button id="setup-new-room" class="setup">Setup New Conference</button>
-                    </input>
+         </div>
+         <div id = 'mainArea'>
+            <section class="experiment">
+               <section>
+                  <span>
+                  <span>Private:</span>
+                  <a href="/video-conferencing/" target="_blank" title="Open incognito">
+                  <code><strong id="unique-token">#123456789</strong></code>
+                  </a>
+                  </span>
+                  <input type="text" id="conference-name">
+                  <button id="setup-new-room" class="setup">Setup New Conference</button>
+                  </input>
+               </section>
+               <!-- list of all available conferencing rooms -->
+               <table style="width: 100%;" id="rooms-list"></table>
+               <!-- local/remote videos container -->
+               <div id="videos-container"></div>
             </section>
-
-            <!-- list of all available conferencing rooms -->
-            <table style="width: 100%;" id="rooms-list"></table>
-            <!-- local/remote videos container -->
-            <div id="videos-container"></div>
-        </section>
-        <div id="chat">             
-                <div><button class="btn-minimize"> - </button> </div>
-                <div id="connecting">
-                <div class="wrap">Connecting to socket.io server</div>
-                </div>
-                <div id="messages">
-                    <div id="nicknames">    
-                    </div>
-                <div class="messgeArea">
-                    <div id="lines">
-                    </div>
-                </div>
-
-                <form id="send-message">
-                    <input id="message" type="text"/>
-                    <div>
+            <div id="chat">
+               <div><button class="btn-minimize"> - </button> </div>
+               <div id="connecting">
+                  <div class="wrap">Connecting to socket.io server</div>
+               </div>
+               <div id="messages">
+                  <div id="nicknames">
+                  </div>
+                  <div class="messgeArea">
+                     <div id="lines">
+                     </div>
+                  </div>
+                  <form id="send-message">
+                     <input id="message" type="text"/>
+                     <div>
                         <button value="" class="send">Send</button>
                         <div class="filebutton">Send Image<input type="file" id="imagefile" accept="image/*"></div>
-                    </div>
-                </form>
+                     </div>
+                  </form>
+               </div>
             </div>
-        </div>
-        </div>
-  </body>
-
-        <!-- scripts used for video-conferencing -->
-        <script src='https://code.jquery.com/jquery-1.6.1.min.js'></script>      
-        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript" src="webrtc/js/RTCPeerConnection-v1.5.js"></script>
-        <script type="text/javascript" src="webrtc/js/conference.js"></script>
-        <script type="text/javascript" src="webrtc/js/getMediaElement.min.js"></script>
-        <script type="text/javascript" src="webrtc/js/navigator.customGetUserMediaBar.js"></script>
-        <script type="text/javascript" src="webrtc/js/video-conferencing.js"></script>
-        <script type="text/javascript" src="js/chat.js"></script>
+         </div>
+      </div>
+      <footer class="ui row footer menu">
         
-    </body>
+        Copyright © V2you Website  2016
+    </footer>
+   </body>
+
+   <!-- scripts used for video-conferencing -->
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+   <script src="/socket.io/socket.io.js"></script>
+   <script type="text/javascript" src="webrtc/js/RTCPeerConnection-v1.5.js"></script>
+   <script type="text/javascript" src="webrtc/js/conference.js"></script>
+   <script type="text/javascript" src="webrtc/js/getMediaElement.min.js"></script>
+   <script type="text/javascript" src="webrtc/js/navigator.customGetUserMediaBar.js"></script>
+   <script type="text/javascript" src="webrtc/js/video-conferencing.js"></script>
+   <script type="text/javascript" src="js/chat.js"></script>
+   <script type="text/javascript" src="js/register.js"></script>
+   <script type="text/javascript" src="semantic/semantic.min.js"></script>
+   </body>
 </html>

@@ -5,8 +5,6 @@ var express = require('express');
 var https = require('https');
 var multidep = require('multidep')('multidep.json');
 var fs = require('fs');
-var events = require('events');
-var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var expressValidator = require('express-validator');
 var User = require('./models/user');
@@ -19,9 +17,6 @@ var options = {
 };
 var socketio = multidep('socket.io', '0.9.17');
 
-var stat = require('node-static');
-var path = require('path');
-
 var app = express();
 var nicknames = {};
 
@@ -30,12 +25,6 @@ app.use(bodyParser.json());
 
 var server = https.createServer(options, app);
 app.use('/', express.static('public'));
-
-var file = new stat.Server(path.join(__dirname, '..', 'public'));
-
-function handler(req, res) {
-    file.serve(req, res);
-}
 
 // Connect to the database
 mongoose.connect('mongodb://project2:project2@ds113668.mlab.com:13668/473project2');
@@ -97,7 +86,7 @@ app.post('/register', function(req, res) {
 
         // Create our user - throw an error if it fails
         User.createUser(newUser, function(err, user) {
-            if (err) throw err;
+            if (err) { throw err; }
             console.log(user);
         });
     }
@@ -122,7 +111,7 @@ app.post('/login', function(req, res) {
                 User.findOne({
                     username: username
                 }, function(err, user) {
-                    if (err) throw err;
+                    if (err) { throw err; }
 
                     // Is there a user in our db?
                     else if (!user) {
@@ -132,6 +121,7 @@ app.post('/login', function(req, res) {
                     } else {
                         // Load hash from your password DB.
                         User.comparePassword(password, user.password, function(err, user) {
+                            //user is not used here, but possibly will be with future update
                             if (err) {
                                 res.json({
                                     'response': 'Invalid password'
@@ -145,7 +135,7 @@ app.post('/login', function(req, res) {
                         });
                     }
                 });
-            };
+            }
         });
 
         //io.set('transports', [ /*'websocket',*/ 'xhr-polling', 'jsonp-polling' ]);
@@ -156,6 +146,30 @@ app.post('/login', function(req, res) {
         });
 
         var channels = {};
+
+        function onNewNamespace(channel, sender) {
+            io.of('/' + channel).on('connection', function(socket) {
+                var username;
+                if (io.isConnected) {
+                    io.isConnected = false;
+                    socket.emit('connect', true);
+                }
+
+                socket.on('message', function(data) {
+                    if (data.sender === sender) {
+                        if (!username) { username = data.data.sender; }
+                        socket.broadcast.emit('message', data.data);
+                    }
+                });
+
+                socket.on('disconnect', function() {
+                    if (username) {
+                        socket.broadcast.emit('user-left', username);
+                        username = null;
+                    }
+                });
+            });
+        }
 
         io.sockets.on('connection', function(socket) {
             var initiatorChannel = '';
@@ -180,6 +194,7 @@ app.post('/login', function(req, res) {
 
 
             socket.on('disconnect', function(channel) {
+                //channel is not used in this function but may be in a future update
                 if (initiatorChannel) {
                     delete channels[initiatorChannel];
                 }
@@ -215,31 +230,6 @@ app.post('/login', function(req, res) {
 
         });
 
-        function onNewNamespace(channel, sender) {
-            io.of('/' + channel).on('connection', function(socket) {
-                var username;
-                if (io.isConnected) {
-                    io.isConnected = false;
-                    socket.emit('connect', true);
-                }
-
-                socket.on('message', function(data) {
-                    if (data.sender == sender) {
-                        if (!username) username = data.data.sender;
-
-                        socket.broadcast.emit('message', data.data);
-                    }
-                });
-
-                socket.on('disconnect', function() {
-                    if (username) {
-                        socket.broadcast.emit('user-left', username);
-                        username = null;
-                    }
-                });
-            });
-        }
-
         server.listen(process.env.PORT || port, function() {
-            console.log("Express running on port", (process.env.PORT || port));
+            console.log('Express running on port', (process.env.PORT || port));
         });

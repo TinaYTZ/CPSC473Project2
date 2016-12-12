@@ -3,6 +3,7 @@
    <head>
       <title>v2you</title>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <link rel="stylesheet" href="webrtc/css/style.css">
@@ -27,7 +28,7 @@
                <div class="ui modal" id="register-modal">
                   <div class="ui raised very padded text container segment dimmable">
                      <div class="ui header">V2You Registration</div>
-                     <div class="ui form register" id="register">
+                     <div class="ui form register" name="register">
                         <div class="field">
                            <label>Username</label>
                            <input type="text" name="username" placeholder="Username">
@@ -103,7 +104,7 @@
                   </a>
                   </span>
                   <input type="text" id="conference-name">
-                     <button id="setup-new-room" class="setup">Setup New Conference</button>
+                  <button id="setup-new-room" class="setup">Setup New Conference</button>
                   </input>
                </section>
                <!-- list of all available conferencing rooms -->
@@ -138,6 +139,7 @@
         
         Copyright © V2you Website  2016
     </footer>
+   </body>
 
    <!-- scripts used for video-conferencing -->
    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

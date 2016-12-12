@@ -1,8 +1,10 @@
+/* jshint node: true, curly: true, eqeqeq: true, forin: true, immed: true, indent: 4, latedef: true, newcap: true, nonew: true, quotmark: single, undef: true, unused: true, strict: true, trailing: true */
+/* globals $:false, io:false */
 var main = function() {
-    'use strict'
+  'use strict';
   var socket = io.connect();
 
-    var url = "https://localhost:8080";
+    var url = 'https://localhost:8080';
     $('#userArea').hide();
     // @param userCredentials - object of user register credentials
     function registerUser(userCredentials) {
@@ -14,7 +16,7 @@ var main = function() {
             data: (JSON.stringify(userCredentials)),
             success: function(response) {
 							$('.signup-response').empty();
-							$('.signup-response').append($('<p>' + response['response'] + '</p>'));
+							$('.signup-response').append($('<p>' + response.response + '</p>'));
             }
         });
     }
@@ -29,15 +31,16 @@ var main = function() {
             data: (JSON.stringify(userCredentials)),
             success: function(response) {
 							$('.login-response').empty();
-              $('.login-response').append($('<p>' + response['response'] + '</p>'));
-              if(response['response']=="Successfully logged in"){
-                $("#loginArea").hide();
+              $('.login-response').append($('<p>' + response.response + '</p>'));
+              if(response.response === 'Successfully logged in'){
+                $('#loginArea').hide();
                 $('#login-modal').modal('hide');                
                 $('#userArea').show();
-                console.log('username', response['username'] );
-                socket.emit('nickname', response['username'], function (set) {
-                $('#chat').addClass('nickname-set');
-                $('#nickname-err').css('visibility', 'visible');
+                console.log('username', response.username);
+                socket.emit('nickname', response.username, function (set) {
+                    //we do not use set here, but in future may
+                    $('#chat').addClass('nickname-set');
+                    $('#nickname-err').css('visibility', 'visible');
                 });
                
 
@@ -128,7 +131,7 @@ var main = function() {
           		]
           	},
         }
-    })
+    });
 
     //Login Validation
     $('.ui.form.login').form({
@@ -152,6 +155,6 @@ var main = function() {
           		]
           	},
         }
-    })
+    });
 };
 $(document).ready(main);

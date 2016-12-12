@@ -1,14 +1,23 @@
-
-  //
+/* jshint node: true, curly: true, eqeqeq: true, forin: true, immed: true, indent: 4, latedef: true, newcap: true, nonew: true, quotmark: single, undef: true, unused: true, strict: true, trailing: true */
+/* global $:false, io:false */
+//
   // socket.io code
   //
-    
+'use strict';   
 
 
-$(".btn-minimize").click(function(){
+$('.btn-minimize').click(function(){
     $(this).toggleClass('btn-plus');
-    $(".messgeArea").slideToggle();
+    $('.messgeArea').slideToggle();
   });
+
+  function message (from, msg) {
+    $('#lines').append($('<p>').append($('<b>').text(from), msg));
+  }
+
+  function image (from, base64Image) {
+    $('#lines').append($('<p>').append($('<b>').text(from), '<img src="' + base64Image + '"/>'));
+  }
 
   var socket = io.connect();
   //$('#mainArea').hide();
@@ -25,7 +34,7 @@ $(".btn-minimize").click(function(){
     $('#mainArea').show();
 
     $('#nicknames').empty().append($('<span>Online: </span>'));
-    for (var i in nicknames) {
+    for (var i = 0; i < nicknames.length; i++) {
       $('#nicknames').append($('<b>').text(nicknames[i]));
     }
   });
@@ -45,30 +54,12 @@ $(".btn-minimize").click(function(){
     message('System', e ? e : 'A unknown error occurred');
   });
 
-  function message (from, msg) {
-    $('#lines').append($('<p>').append($('<b>').text(from), msg));
-  }
-
-  function image (from, base64Image) {
-    $('#lines').append($('<p>').append($('<b>').text(from), '<img src="' + base64Image + '"/>'));
-  }
-
   //
   // dom manipulation code
   //
- 
-    // $('#set-nickname').submit(function (ev) {
-    //   console.log("get nick",$('#nick').val());
-    //   socket.emit('nickname', $('#nick').val(), function (set) {
-    //     if (!set) {
-    //       clear();
-    //       return $('#chat').addClass('nickname-set');
-    //     }
-
-    //     $('#nickname-err').css('visibility', 'visible');
-    //   });
-    //   return false;
-    // });
+    function clear() {
+      $('#message').val('').focus();
+    }
 
     $('#send-message').submit(function () {
       message('me', $('#message').val());
@@ -77,10 +68,6 @@ $(".btn-minimize").click(function(){
       $('#lines').get(0).scrollTop = 10000000;
       return false;
     });
-
-    function clear () {
-      $('#message').val('').focus();
-    };
 
     $('#imagefile').bind('change', function(e){
       var data = e.originalEvent.target.files[0];

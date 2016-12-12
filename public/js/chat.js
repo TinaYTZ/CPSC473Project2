@@ -11,7 +11,7 @@ $(".btn-minimize").click(function(){
   });
 
   var socket = io.connect();
-  $('#mainArea').hide();
+  //$('#mainArea').hide();
   socket.on('connect', function () {
     $('#chat').addClass('connected');
   });
@@ -57,18 +57,18 @@ $(".btn-minimize").click(function(){
   // dom manipulation code
   //
  
-    $('#set-nickname').submit(function (ev) {
-      console.log("get nick",$('#nick').val());
-      socket.emit('nickname', $('#nick').val(), function (set) {
-        if (!set) {
-          clear();
-          return $('#chat').addClass('nickname-set');
-        }
+    // $('#set-nickname').submit(function (ev) {
+    //   console.log("get nick",$('#nick').val());
+    //   socket.emit('nickname', $('#nick').val(), function (set) {
+    //     if (!set) {
+    //       clear();
+    //       return $('#chat').addClass('nickname-set');
+    //     }
 
-        $('#nickname-err').css('visibility', 'visible');
-      });
-      return false;
-    });
+    //     $('#nickname-err').css('visibility', 'visible');
+    //   });
+    //   return false;
+    // });
 
     $('#send-message').submit(function () {
       message('me', $('#message').val());
